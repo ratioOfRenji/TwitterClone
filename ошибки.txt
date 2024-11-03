@@ -1,0 +1,50 @@
+Unable to copy 'mainTemplate.gradle' from Unity engine folder 'D:/2022.3.16f1/Editor/Data/PlaybackEngines/AndroidPlayer\Tools\GradleTemplates' to this project folder 'Assets/Plugins/Android'. 
+ System.IO.DirectoryNotFoundException: Could not find a part of the path 'D:\MyUnityProjects\BlogsAppWithGoogle\Assets\Plugins\Android\mainTemplate.gradle'.
+  at System.IO.FileSystem.CopyFile (System.String sourceFullPath, System.String destFullPath, System.Boolean overwrite) [0x00060] in <17d9ce77f27a4bd2afb5ba32c9bea976>:0 
+  at System.IO.File.Copy (System.String sourceFileName, System.String destFileName, System.Boolean overwrite) [0x00062] in <17d9ce77f27a4bd2afb5ba32c9bea976>:0 
+  at System.IO.File.Copy (System.String sourceFileName, System.String destFileName) [0x00000] in <17d9ce77f27a4bd2afb5ba32c9bea976>:0 
+  at GooglePlayServices.GradleTemplateResolver.EnsureGradleTemplateEnabled (System.String templateName) [0x00029] in /Users/amaurice/Documents/GitHub/unity-jar-resolver/source/AndroidResolver/src/GradleTemplateResolver.cs:783 
+UnityEngine.Debug:LogError (object)
+Google.Logger:Log (string,Google.LogLevel) (at /Users/amaurice/Documents/GitHub/unity-jar-resolver/source/VersionHandlerImpl/src/Logger.cs:136)
+GooglePlayServices.PlayServicesResolver:Log (string,Google.LogLevel) (at /Users/amaurice/Documents/GitHub/unity-jar-resolver/source/AndroidResolver/src/PlayServicesResolver.cs:1077)
+GooglePlayServices.GradleTemplateResolver:EnsureGradleTemplateEnabled (string) (at /Users/amaurice/Documents/GitHub/unity-jar-resolver/source/AndroidResolver/src/GradleTemplateResolver.cs:785)
+GooglePlayServices.PlayServicesResolver:EnableGradleTemplates () (at /Users/amaurice/Documents/GitHub/unity-jar-resolver/source/AndroidResolver/src/PlayServicesResolver.cs:1773)
+GooglePlayServices.PlayServicesResolver:ResolveUnsafeAfterMainTemplateCheck (System.Action`1<bool>,bool,bool,bool) (at /Users/amaurice/Documents/GitHub/unity-jar-resolver/source/AndroidResolver/src/PlayServicesResolver.cs:1806)
+GooglePlayServices.PlayServicesResolver/<>c__DisplayClass110_0:<ScheduleResolve>b__1 () (at /Users/amaurice/Documents/GitHub/unity-jar-resolver/source/AndroidResolver/src/PlayServicesResolver.cs:1751)
+GooglePlayServices.PlayServicesResolver:ExecuteNextResolveJob () (at /Users/amaurice/Documents/GitHub/unity-jar-resolver/source/AndroidResolver/src/PlayServicesResolver.cs:1598)
+GooglePlayServices.PlayServicesResolver:ScheduleResolve (bool,bool,System.Action`1<bool>,bool) (at /Users/amaurice/Documents/GitHub/unity-jar-resolver/source/AndroidResolver/src/PlayServicesResolver.cs:1764)
+GooglePlayServices.PlayServicesResolver:AutoResolve (System.Action) (at /Users/amaurice/Documents/GitHub/unity-jar-resolver/source/AndroidResolver/src/PlayServicesResolver.cs:1258)
+GooglePlayServices.PlayServicesResolver/<>c:<ScheduleAutoResolve>b__86_1 () (at /Users/amaurice/Documents/GitHub/unity-jar-resolver/source/AndroidResolver/src/PlayServicesResolver.cs:1237)
+Google.RunOnMainThread:ExecutePollingJobs () (at /Users/amaurice/Documents/GitHub/unity-jar-resolver/source/VersionHandlerImpl/src/RunOnMainThread.cs:409)
+Google.RunOnMainThread/<>c:<ExecuteAllUnnested>b__28_0 () (at /Users/amaurice/Documents/GitHub/unity-jar-resolver/source/VersionHandlerImpl/src/RunOnMainThread.cs:541)
+Google.RunOnMainThread:RunAction (System.Action) (at /Users/amaurice/Documents/GitHub/unity-jar-resolver/source/VersionHandlerImpl/src/RunOnMainThread.cs:343)
+Google.RunOnMainThread:ExecuteAllUnnested (bool) (at /Users/amaurice/Documents/GitHub/unity-jar-resolver/source/VersionHandlerImpl/src/RunOnMainThread.cs:530)
+Google.RunOnMainThread:ExecuteAll () (at /Users/amaurice/Documents/GitHub/unity-jar-resolver/source/VersionHandlerImpl/src/RunOnMainThread.cs:512)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
+
+Gradle failed to fetch dependencies.
+
+Failed to run 'D:\MyUnityProjects\BlogsAppWithGoogle\Temp\PlayServicesResolverGradle\gradlew.bat --no-daemon -b "D:\MyUnityProjects\BlogsAppWithGoogle\Temp\PlayServicesResolverGradle\PlayServicesResolver.scripts.download_artifacts.gradle" "-PANDROID_HOME=D:\2022.3.2f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK" "-PTARGET_DIR=D:\MyUnityProjects\BlogsAppWithGoogle\Assets\Plugins\Android" "-PMAVEN_REPOS=file:///D:/MyUnityProjects/BlogsAppWithGoogle/Assets/GoogleSignIn/Editor/m2repository" "-PPACKAGES_TO_COPY=com.google.android.gms:play-services-auth:16+;com.google.signin:google-signin-support:1.0.4" "-PUSE_JETIFIER=1" "-PDATA_BINDING_VERSION=7.1.2"'
+stdout:
+
+ERROR: JAVA_HOME is not set and no 'java' command could be found in your PATH.
+
+Please set the JAVA_HOME variable in your environment to match the
+location of your Java installation.
+
+stderr:
+
+exit code: 1
+
+UnityEngine.Debug:LogError (object)
+Google.Logger:Log (string,Google.LogLevel) (at /Users/amaurice/Documents/GitHub/unity-jar-resolver/source/VersionHandlerImpl/src/Logger.cs:136)
+GooglePlayServices.PlayServicesResolver:Log (string,Google.LogLevel) (at /Users/amaurice/Documents/GitHub/unity-jar-resolver/source/AndroidResolver/src/PlayServicesResolver.cs:1077)
+GooglePlayServices.GradleResolver/<>c__DisplayClass8_0:<GradleResolution>b__2 (GooglePlayServices.CommandLine/Result) (at /Users/amaurice/Documents/GitHub/unity-jar-resolver/source/AndroidResolver/src/GradleResolver.cs:459)
+GooglePlayServices.GradleResolver/<>c__DisplayClass8_2:<GradleResolution>b__10 () (at /Users/amaurice/Documents/GitHub/unity-jar-resolver/source/AndroidResolver/src/GradleResolver.cs:572)
+Google.RunOnMainThread:ExecuteNext () (at /Users/amaurice/Documents/GitHub/unity-jar-resolver/source/VersionHandlerImpl/src/RunOnMainThread.cs:486)
+Google.RunOnMainThread/<>c:<ExecuteAllUnnested>b__28_0 () (at /Users/amaurice/Documents/GitHub/unity-jar-resolver/source/VersionHandlerImpl/src/RunOnMainThread.cs:536)
+Google.RunOnMainThread:RunAction (System.Action) (at /Users/amaurice/Documents/GitHub/unity-jar-resolver/source/VersionHandlerImpl/src/RunOnMainThread.cs:343)
+Google.RunOnMainThread:ExecuteAllUnnested (bool) (at /Users/amaurice/Documents/GitHub/unity-jar-resolver/source/VersionHandlerImpl/src/RunOnMainThread.cs:530)
+Google.RunOnMainThread:ExecuteAll () (at /Users/amaurice/Documents/GitHub/unity-jar-resolver/source/VersionHandlerImpl/src/RunOnMainThread.cs:512)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
+

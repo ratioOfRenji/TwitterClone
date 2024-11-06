@@ -17,6 +17,7 @@ public class GoogleAuthentication : MonoBehaviour
 	public string webClientId = "499839630768-g1jj981p26cpi1fcaugigrmriv264t0o.apps.googleusercontent.com";
 	private string apiBaseUrl = "https://webapiwithconfirm-production.up.railway.app/api/Account"; // Replace with your API base URL
 
+	[SerializeField] private BlogsScreensSwicher _blogsScreenSwicher;
 	void Awake()
 	{
 		configuration = new GoogleSignInConfiguration
@@ -33,7 +34,11 @@ public class GoogleAuthentication : MonoBehaviour
 		GoogleSignIn.Configuration = configuration;
 		GoogleSignIn.DefaultInstance.SignIn().ContinueWith(OnAuthenticationFinished, TaskScheduler.Default);
 	}
-
+	public void OnRegister()
+	{
+		GoogleSignIn.Configuration = configuration;
+		GoogleSignIn.DefaultInstance.SignIn().ContinueWith(OnAuthenticationFinishedR, TaskScheduler.Default);
+	}
 	internal void OnAuthenticationFinished(Task<GoogleSignInUser> task)
 	{
 		if (task.IsFaulted)
@@ -46,42 +51,26 @@ public class GoogleAuthentication : MonoBehaviour
 		}
 		else
 		{
-			StartCoroutine(UpdateUIAndSendApiRequest(task.Result));
+			StartCoroutine(SendLoginRequest(task.Result.IdToken));
 		}
 	}
-
-	IEnumerator UpdateUIAndSendApiRequest(GoogleSignInUser user)
+	internal void OnAuthenticationFinishedR(Task<GoogleSignInUser> task)
 	{
-		Debug.Log("Welcome: " + user.DisplayName + "!");
-		userNameTxt.text = user.DisplayName;
-		userEmailTxt.text = user.Email;
-		idTokenText.text = user.IdToken;
-		imageURL = user.ImageUrl.ToString();
-
-		UnityWebRequest imageRequest = UnityWebRequestTexture.GetTexture(imageURL);
-		yield return imageRequest.SendWebRequest();
-
-		if (imageRequest.result == UnityWebRequest.Result.Success)
+		if (task.IsFaulted)
 		{
-			Texture2D downloadedTexture = DownloadHandlerTexture.GetContent(imageRequest);
-			Rect rect = new Rect(0, 0, downloadedTexture.width, downloadedTexture.height);
-			Vector2 pivot = new Vector2(0.5f, 0.5f);
-			profilePic.sprite = Sprite.Create(downloadedTexture, rect, pivot);
-
-			loginPanel.SetActive(false);
-			profilePanel.SetActive(true);
-
-			// Send API request to register or log in
-			Debug.Log(user.IdToken);
-			StartCoroutine(SendRegisterOrLoginRequest(user.IdToken));
+			Debug.LogError("Error: " + task.Exception?.Message);
+		}
+		else if (task.IsCanceled)
+		{
+			Debug.LogError("Sign-in was canceled.");
 		}
 		else
 		{
-			Debug.LogError("Failed to load profile image.");
+			StartCoroutine(SendRegisterRequest(task.Result.IdToken));
 		}
 	}
 
-	IEnumerator SendRegisterOrLoginRequest(string idToken)
+	IEnumerator SendLoginRequest(string idToken)
 	{
 		UnityWebRequest request = new UnityWebRequest("https://webapiwithconfirm-production.up.railway.app/api/Account/signin/google", "POST");
 
@@ -95,8 +84,34 @@ public class GoogleAuthentication : MonoBehaviour
 
 		if (request.result == UnityWebRequest.Result.Success)
 		{
-			Debug.Log("User successfully logged in or registered.");
+			Debug.Log("User successfully logged in.");
 			// Handle response (e.g., store token if received)
+			_blogsScreenSwicher.ShowBlogsScreen();
+		}
+		else
+		{
+			Debug.LogError("Error logging in: " + request.error);
+			Debug.LogError("Response: " + request.downloadHandler.text);
+		}
+	}
+
+	IEnumerator SendRegisterRequest(string idToken)
+	{
+		UnityWebRequest request = new UnityWebRequest("https://webapiwithconfirm-production.up.railway.app/api/Account/register/google", "POST");
+
+		// Directly send the idToken as raw bytes without JSON serialization
+		byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(idToken);
+		request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+		request.downloadHandler = new DownloadHandlerBuffer();
+		request.SetRequestHeader("Content-Type", "text/plain"); // Using text/plain to send the raw token directly
+
+		yield return request.SendWebRequest();
+
+		if (request.result == UnityWebRequest.Result.Success)
+		{
+			Debug.Log("User successfully registered.");
+			// Handle response (e.g., store token if received)
+			_blogsScreenSwicher.ShowBlogsScreen();
 		}
 		else
 		{
@@ -107,11 +122,6 @@ public class GoogleAuthentication : MonoBehaviour
 
 	public void OnSignOut()
 	{
-		userNameTxt.text = "";
-		userEmailTxt.text = "";
-		imageURL = "";
-		loginPanel.SetActive(true);
-		profilePanel.SetActive(false);
 		Debug.Log("Signing out...");
 		GoogleSignIn.DefaultInstance.SignOut();
 	}

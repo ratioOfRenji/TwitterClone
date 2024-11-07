@@ -9,8 +9,13 @@ using Newtonsoft.Json;
 public class RegisterWithEmail
 {
 	public string ErrorMessage { get; set; }
-	public RegisterWithEmail()
+	private string _currentEmail;
+	public string CurrentPassword => _currentPassword;
+	private string _currentPassword ="";
+	private UserDataStorage _userDataStorage;
+	public RegisterWithEmail(UserDataStorage userDataStorage)
 	{
+		_userDataStorage = userDataStorage;
 	}
 
 	public bool CheckPasswordMatching(string password, string confirmedPassword)
@@ -31,6 +36,8 @@ public class RegisterWithEmail
 	{
 		var url = $"{Constants.BaseApiUrl}/api/Account/register";
 		var requestBody = JsonConvert.SerializeObject(new { email = email, password = password });
+		_currentEmail = email;
+		_currentPassword = password;
 		return await SendPostRequest(url, requestBody);
 	}
 	private async UniTask<bool> SendPostRequest(string url, string jsonBody)
@@ -52,6 +59,7 @@ public class RegisterWithEmail
 			if (request.result == UnityWebRequest.Result.Success)
 			{
 				Debug.Log("User Succesfuly registered!");
+				_userDataStorage.SaveData(_currentEmail);
 				return true;
 			}
 			else

@@ -10,18 +10,23 @@ using UnityEngine.Networking;
 public class SignInWithEmail 
 {
 	private TokensStorage _tokenStorage;
-	public SignInWithEmail(TokensStorage tokensStorage)
+	private UserDataStorage _userDataStorage;
+
+	private string _currentEmail;
+	public SignInWithEmail(TokensStorage tokensStorage, UserDataStorage userDataStorage)
 	{
 		_tokenStorage = tokensStorage;
+		_userDataStorage = userDataStorage;
 	}
 
 	public async UniTask<bool> Login(string email, string password)
 	{
 		var url = $"{Constants.BaseApiUrl}/api/Account/login";
 		var requestBody = JsonConvert.SerializeObject(new { email, password });
-		return await SendPostRequest(url, requestBody, saveTokens: true);
+		_currentEmail = email;
+		return await SendPostRequest(url, requestBody);
 	}
-	private async Task<bool> SendPostRequest(string url, string jsonBody, bool saveTokens = false)
+	private async Task<bool> SendPostRequest(string url, string jsonBody)
 	{
 		using (UnityWebRequest request = new UnityWebRequest(url, "POST"))
 		{
@@ -40,10 +45,9 @@ public class SignInWithEmail
 
 			if (request.result == UnityWebRequest.Result.Success)
 			{
-				if (saveTokens)
-				{
-					SaveTokensFromResponse(request.downloadHandler.text);
-				}
+				_userDataStorage.SaveData(_currentEmail);
+				SaveTokensFromResponse(request.downloadHandler.text);
+
 				return true;
 			}
 			else

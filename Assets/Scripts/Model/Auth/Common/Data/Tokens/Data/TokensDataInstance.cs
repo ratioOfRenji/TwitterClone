@@ -4,7 +4,7 @@ using System;
 [Serializable]
 public class TokensDataInstance
 {
-	[JsonProperty("accessToken")]
+	[JsonProperty("token")]
 	public string AccessToken {  get; private set; }
 	[JsonProperty("refreshToken")]
 	public string RefreshToken { get; private set; }

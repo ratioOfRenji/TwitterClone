@@ -5,8 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using Zenject;
-using static PlasticPipe.Server.MonitorStats;
-
+using Newtonsoft.Json;
 public class TokensStorage : IInitializable
 {
 	public TokensDataInstance UserTokens {  get; private set; }
@@ -25,7 +24,7 @@ public class TokensStorage : IInitializable
 		if (File.Exists(filePath))
 		{
 			string jsonData = File.ReadAllText(filePath);
-			UserTokens = JsonUtility.FromJson<TokensDataInstance>(jsonData);
+			UserTokens = JsonConvert.DeserializeObject<TokensDataInstance>(jsonData);
 		}
 		else
 		{
@@ -36,7 +35,7 @@ public class TokensStorage : IInitializable
 
 	public void SaveData()
 	{
-		string jsonData = JsonUtility.ToJson(UserTokens, true);
+		string jsonData = JsonConvert.SerializeObject(UserTokens);
 		string filePath = Path.Combine(Application.persistentDataPath, _saveFileName);
 		File.WriteAllText(filePath, jsonData);
 	}

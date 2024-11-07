@@ -4,17 +4,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 using UniRx;
+using Cysharp.Threading.Tasks;
 
 public class RegisterWithEmailPresenter : IInitializable, IDisposable
 {
 	private readonly RegisterWithEmail _model;
 	private readonly RegisterWithEmailView _view;
+	private readonly AuthScreenSwicher _screenSwicher;
 
 	private CompositeDisposable _disposables = new CompositeDisposable();
-	public RegisterWithEmailPresenter(RegisterWithEmail model, RegisterWithEmailView view)
+	public RegisterWithEmailPresenter(RegisterWithEmail model, RegisterWithEmailView view, AuthScreenSwicher screenSwicher)
 	{
 		_model = model;
 		_view = view;
+		_screenSwicher = screenSwicher;
 	}
 	public void Initialize()
 	{
@@ -25,13 +28,17 @@ public class RegisterWithEmailPresenter : IInitializable, IDisposable
 		_disposables.Dispose();
 	}
 
-	private void OnRegisterButtonClick()
+	private async UniTask OnRegisterButtonClick()
 	{
 		_view.DisplayWarning(false);
 		bool passwordMatch = _model.CheckPasswordMatching(_view.Password(), _view.RepeatPassword());
 		if (passwordMatch)
 		{
-			_model.Register(_view.Email(), _view.Password());
+			bool success= await _model.Register(_view.Email(), _view.Password());
+			if (success)
+			{
+				_screenSwicher.ShowConfirmEmailScreen();
+			}
 		}
 		else
 		{

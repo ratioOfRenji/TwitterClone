@@ -29,7 +29,7 @@ public class RegisterWithEmail
 
 	public async UniTask<bool> Register(string email, string password)
 	{
-		var url = $"{Constants.BaseApiUrl}/register";
+		var url = $"{Constants.BaseApiUrl}/api/Account/register";
 		var requestBody = JsonConvert.SerializeObject(new { email = email, password = password });
 		return await SendPostRequest(url, requestBody);
 	}
@@ -42,7 +42,6 @@ public class RegisterWithEmail
 			request.downloadHandler = new DownloadHandlerBuffer();
 			request.SetRequestHeader("Content-Type", "application/json");
 
-
 			var asyncOp = request.SendWebRequest();
 
 			while (!asyncOp.isDone)
@@ -52,13 +51,15 @@ public class RegisterWithEmail
 
 			if (request.result == UnityWebRequest.Result.Success)
 			{
-				
+				Debug.Log("User Succesfuly registered!");
 				return true;
 			}
 			else
 			{
-				Debug.LogError($"Request failed: {request.error}");
-				ErrorMessage = request.error;
+				// Attempt to get the full error message from the response body
+				string serverResponse = request.downloadHandler.text;
+				Debug.LogError($"Request failed: {request.error}. Server Response: {serverResponse}");
+				ErrorMessage = !string.IsNullOrEmpty(serverResponse) ? serverResponse : request.error;
 				return false;
 			}
 		}

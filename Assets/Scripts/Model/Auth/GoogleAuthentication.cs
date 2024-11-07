@@ -2,22 +2,16 @@ using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using Google;
 using UnityEngine.Networking;
 using Newtonsoft.Json;
 
 public class GoogleAuthentication : MonoBehaviour
 {
-	public string imageURL;
-	public TMP_Text userNameTxt, userEmailTxt, idTokenText;
-	public Image profilePic;
-	public GameObject loginPanel, profilePanel;
 	private GoogleSignInConfiguration configuration;
 	public string webClientId = "499839630768-g1jj981p26cpi1fcaugigrmriv264t0o.apps.googleusercontent.com";
 	private string apiBaseUrl = "https://webapiwithconfirm-production.up.railway.app/api/Account"; // Replace with your API base URL
 
-	[SerializeField] private BlogsScreensSwicher _blogsScreenSwicher;
 	void Awake()
 	{
 		configuration = new GoogleSignInConfiguration
@@ -86,7 +80,6 @@ public class GoogleAuthentication : MonoBehaviour
 		{
 			Debug.Log("User successfully logged in.");
 			// Handle response (e.g., store token if received)
-			_blogsScreenSwicher.ShowBlogsScreen();
 		}
 		else
 		{
@@ -111,7 +104,6 @@ public class GoogleAuthentication : MonoBehaviour
 		{
 			Debug.Log("User successfully registered.");
 			// Handle response (e.g., store token if received)
-			_blogsScreenSwicher.ShowBlogsScreen();
 		}
 		else
 		{

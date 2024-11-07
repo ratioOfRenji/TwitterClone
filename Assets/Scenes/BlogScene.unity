@@ -3261,6 +3261,7 @@ GameObject:
   m_Component:
   - component: {fileID: 668685264}
   - component: {fileID: 668685263}
+  - component: {fileID: 668685265}
   m_Layer: 0
   m_Name: SceneContext
   m_TagString: Untagged
@@ -3281,7 +3282,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
-  _monoInstallers: []
+  _monoInstallers:
+  - {fileID: 668685265}
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:
@@ -3314,6 +3316,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &668685265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 668685262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9f1ce833574d4428b4fba96c52afd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _signInEmailView: {fileID: 1571085029}
 --- !u!1 &776787119
 GameObject:
   m_ObjectHideFlags: 0
@@ -3740,7 +3755,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Next
+  m_text: Sign in
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1680278127fb5dc40a521d7ca69683b4, type: 2}
   m_sharedMaterial: {fileID: 4987307449028908475, guid: 1680278127fb5dc40a521d7ca69683b4,
@@ -5852,7 +5867,7 @@ GameObject:
   - component: {fileID: 1093286754}
   - component: {fileID: 1093286753}
   m_Layer: 5
-  m_Name: Button
+  m_Name: RegisterButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7591,13 +7606,14 @@ GameObject:
   - component: {fileID: 1571085026}
   - component: {fileID: 1571085028}
   - component: {fileID: 1571085027}
+  - component: {fileID: 1571085029}
   m_Layer: 5
   m_Name: SignInPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1571085026
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7614,8 +7630,8 @@ RectTransform:
   - {fileID: 1087224949}
   - {fileID: 776787120}
   - {fileID: 1413894929}
-  - {fileID: 366857955}
   - {fileID: 1979371507}
+  - {fileID: 366857955}
   - {fileID: 883199009}
   - {fileID: 842888948}
   - {fileID: 1093286752}
@@ -7664,6 +7680,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1571085025}
   m_CullTransparentMesh: 1
+--- !u!114 &1571085029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571085025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e403bc8c2511d748930104bfca2b51b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _emailInputField: {fileID: 1979371508}
+  _passwordInputField: {fileID: 366857956}
+  _signInButton: {fileID: 842888949}
 --- !u!1 &1579174018
 GameObject:
   m_ObjectHideFlags: 0
@@ -7963,15 +7994,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30305341c2868834bb22fd8df8edee38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imageURL: 
-  userNameTxt: {fileID: 0}
-  userEmailTxt: {fileID: 0}
-  idTokenText: {fileID: 0}
-  profilePic: {fileID: 0}
-  loginPanel: {fileID: 0}
-  profilePanel: {fileID: 0}
   webClientId: 499839630768-g1jj981p26cpi1fcaugigrmriv264t0o.apps.googleusercontent.com
-  _blogsScreenSwicher: {fileID: 1451811595}
 --- !u!4 &1656462892
 Transform:
   m_ObjectHideFlags: 0

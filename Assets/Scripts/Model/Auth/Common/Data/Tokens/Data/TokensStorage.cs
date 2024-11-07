@@ -14,7 +14,7 @@ public class TokensStorage : IInitializable
 	private string _saveFileName = "userTokens";
 	public void Initialize()
 	{
-		throw new System.NotImplementedException();
+		LoadData();
 	}
 
 

@@ -17,8 +17,8 @@ public class SignInWithEmail
 
 	public async UniTask<bool> Login(string email, string password)
 	{
-		var url = $"{Constants.BaseApiUrl}/api/account/login";
-		var requestBody = JsonConvert.SerializeObject(new { email = email, password = password });
+		var url = $"{Constants.BaseApiUrl}/api/Account/login";
+		var requestBody = JsonConvert.SerializeObject(new { email, password });
 		return await SendPostRequest(url, requestBody, saveTokens: true);
 	}
 	private async Task<bool> SendPostRequest(string url, string jsonBody, bool saveTokens = false)

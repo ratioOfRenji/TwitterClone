@@ -6,18 +6,21 @@ using System.IO;
 using UnityEngine;
 using Zenject;
 using Newtonsoft.Json;
-public class TokensStorage : IInitializable
+using Cysharp.Threading.Tasks;
+public class TokensStorage
 {
 	public TokensDataInstance UserTokens {  get; private set; }
 
 	private string _saveFileName = "userTokens";
-	public void Initialize()
+
+	private readonly TokenRefresh _tokenRefresh;
+	public TokensStorage(TokenRefresh tokenRefresh)
 	{
-		LoadData();
+		_tokenRefresh = tokenRefresh;
 	}
 
 
-	private void LoadData()
+	public async UniTask<bool> LoadData()
 	{
 		string filePath = Path.Combine(Application.persistentDataPath, _saveFileName);
 
@@ -25,12 +28,29 @@ public class TokensStorage : IInitializable
 		{
 			string jsonData = File.ReadAllText(filePath);
 			UserTokens = JsonConvert.DeserializeObject<TokensDataInstance>(jsonData);
+			if(!string.IsNullOrEmpty(UserTokens.RefreshToken))
+			{
+				try
+				{
+					TokensDataInstance refreshed = await _tokenRefresh.RefreshTokenAsync(UserTokens);
+					UpdateData(refreshed);
+					Debug.Log("Tokens refreshed successfuly!");
+					return true;
+				}
+				catch
+				{
+					Debug.LogError("Unable to refresh tokens");
+					return false;
+				}
+			}
+			
 		}
 		else
 		{
 			UserTokens = new TokensDataInstance("", "");
 			SaveData();
 		}
+		return false;
 	}
 
 	public void SaveData()

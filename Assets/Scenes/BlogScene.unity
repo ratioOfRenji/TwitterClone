@@ -5172,8 +5172,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1656462891}
-        m_TargetAssemblyTypeName: GoogleAuthentication, Assembly-CSharp
-        m_MethodName: OnSignIn
+        m_TargetAssemblyTypeName: GoogleAuthentication, Model
+        m_MethodName: OnSignInButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7937,6 +7937,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _blogsScreen: {fileID: 411109229}
   _createBlogScreen: {fileID: 1241515342}
+  _googleAuthentication: {fileID: 1656462891}
 --- !u!1 &1477729270
 GameObject:
   m_ObjectHideFlags: 0
@@ -10861,8 +10862,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1656462891}
-        m_TargetAssemblyTypeName: GoogleAuthentication, Assembly-CSharp
-        m_MethodName: OnRegister
+        m_TargetAssemblyTypeName: GoogleAuthentication, Model
+        m_MethodName: OnRegisterButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

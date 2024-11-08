@@ -1,17 +1,24 @@
-using System.Collections;
-using System.Threading.Tasks;
+using System;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UI;
 using Google;
 using UnityEngine.Networking;
 using Newtonsoft.Json;
+using Zenject;
+using UniRx;
 
 public class GoogleAuthentication : MonoBehaviour
 {
 	private GoogleSignInConfiguration configuration;
 	public string webClientId = "499839630768-g1jj981p26cpi1fcaugigrmriv264t0o.apps.googleusercontent.com";
 	private string apiBaseUrl = "https://webapiwithconfirm-production.up.railway.app/api/Account"; // Replace with your API base URL
-
+	[Inject] private TokensStorage _tokenStorage;
+	
+	private Subject<bool> onAuthObservable = new Subject<bool>();
+	public IObservable<bool> OnAuthObservable()
+	{
+		return onAuthObservable.AsObservable();
+	}
 	void Awake()
 	{
 		configuration = new GoogleSignInConfiguration
@@ -22,93 +29,83 @@ public class GoogleAuthentication : MonoBehaviour
 			RequestEmail = true
 		};
 	}
-
-	public void OnSignIn()
+	public void OnSignInButton()
+	{
+		OnSignIn().Forget();
+	}
+	private async UniTask OnSignIn()
 	{
 		GoogleSignIn.Configuration = configuration;
-		GoogleSignIn.DefaultInstance.SignIn().ContinueWith(OnAuthenticationFinished, TaskScheduler.Default);
+		try
+		{
+			GoogleSignInUser user = await GoogleSignIn.DefaultInstance.SignIn().AsUniTask();
+			if (user != null)
+			{
+				var tokensData = await SendLoginRequest(user.IdToken);
+				_tokenStorage.UpdateData(tokensData);
+				onAuthObservable.OnNext(true);
+			}
+		}
+		catch (Exception ex)
+		{
+			Debug.LogError("Error during sign-in: " + ex.Message);
+		}
 	}
-	public void OnRegister()
+	public void OnRegisterButton()
+	{
+		OnRegister().Forget();
+	}
+	private async UniTask OnRegister()
 	{
 		GoogleSignIn.Configuration = configuration;
-		GoogleSignIn.DefaultInstance.SignIn().ContinueWith(OnAuthenticationFinishedR, TaskScheduler.Default);
-	}
-	internal void OnAuthenticationFinished(Task<GoogleSignInUser> task)
-	{
-		if (task.IsFaulted)
+		try
 		{
-			Debug.LogError("Error: " + task.Exception?.Message);
+			GoogleSignInUser user = await GoogleSignIn.DefaultInstance.SignIn().AsUniTask();
+			if (user != null)
+			{
+				var tokensData = await SendRegisterRequest(user.IdToken);
+				_tokenStorage.UpdateData(tokensData);
+				onAuthObservable.OnNext(true);
+			}
 		}
-		else if (task.IsCanceled)
+		catch (Exception ex)
 		{
-			Debug.LogError("Sign-in was canceled.");
-		}
-		else
-		{
-			StartCoroutine(SendLoginRequest(task.Result.IdToken));
-		}
-	}
-	internal void OnAuthenticationFinishedR(Task<GoogleSignInUser> task)
-	{
-		if (task.IsFaulted)
-		{
-			Debug.LogError("Error: " + task.Exception?.Message);
-		}
-		else if (task.IsCanceled)
-		{
-			Debug.LogError("Sign-in was canceled.");
-		}
-		else
-		{
-			StartCoroutine(SendRegisterRequest(task.Result.IdToken));
+			Debug.LogError("Error during registration: " + ex.Message);
 		}
 	}
 
-	IEnumerator SendLoginRequest(string idToken)
+	private async UniTask<TokensDataInstance> SendLoginRequest(string idToken)
 	{
-		UnityWebRequest request = new UnityWebRequest("https://webapiwithconfirm-production.up.railway.app/api/Account/signin/google", "POST");
+		var url = $"{apiBaseUrl}/signin/google";
+		return await SendAuthRequest(url, idToken);
+	}
 
-		// Directly send the idToken as raw bytes without JSON serialization
+	private async UniTask<TokensDataInstance> SendRegisterRequest(string idToken)
+	{
+		var url = $"{apiBaseUrl}/register/google";
+		return await SendAuthRequest(url, idToken);
+	}
+
+	private async UniTask<TokensDataInstance> SendAuthRequest(string url, string idToken)
+	{
+		using var request = new UnityWebRequest(url, "POST");
 		byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(idToken);
 		request.uploadHandler = new UploadHandlerRaw(bodyRaw);
 		request.downloadHandler = new DownloadHandlerBuffer();
-		request.SetRequestHeader("Content-Type", "text/plain"); // Using text/plain to send the raw token directly
+		request.SetRequestHeader("Content-Type", "text/plain");
 
-		yield return request.SendWebRequest();
-
-		if (request.result == UnityWebRequest.Result.Success)
-		{
-			Debug.Log("User successfully logged in.");
-			// Handle response (e.g., store token if received)
-		}
-		else
-		{
-			Debug.LogError("Error logging in: " + request.error);
-			Debug.LogError("Response: " + request.downloadHandler.text);
-		}
-	}
-
-	IEnumerator SendRegisterRequest(string idToken)
-	{
-		UnityWebRequest request = new UnityWebRequest("https://webapiwithconfirm-production.up.railway.app/api/Account/register/google", "POST");
-
-		// Directly send the idToken as raw bytes without JSON serialization
-		byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(idToken);
-		request.uploadHandler = new UploadHandlerRaw(bodyRaw);
-		request.downloadHandler = new DownloadHandlerBuffer();
-		request.SetRequestHeader("Content-Type", "text/plain"); // Using text/plain to send the raw token directly
-
-		yield return request.SendWebRequest();
+		await request.SendWebRequest().ToUniTask();
 
 		if (request.result == UnityWebRequest.Result.Success)
 		{
-			Debug.Log("User successfully registered.");
-			// Handle response (e.g., store token if received)
+			Debug.Log("Request successful. Response: " + request.downloadHandler.text);
+			return JsonConvert.DeserializeObject<TokensDataInstance>(request.downloadHandler.text);
 		}
 		else
 		{
-			Debug.LogError("Error logging in: " + request.error);
+			Debug.LogError("Error with request: " + request.error);
 			Debug.LogError("Response: " + request.downloadHandler.text);
+			return null;
 		}
 	}
 

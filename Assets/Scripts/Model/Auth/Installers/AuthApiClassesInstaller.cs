@@ -12,5 +12,6 @@ public class AuthApiClassesInstaller : MonoInstaller
 		Container.Bind<ConfirmEmail>().AsSingle();
 		Container.Bind<TokenRefresh>().AsSingle();
 		Container.Bind<UserInfoClient>().AsSingle();
+		Container.Bind<BlogClient>().AsSingle();	
 	}
 }

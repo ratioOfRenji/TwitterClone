@@ -4,16 +4,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
-
+using UniRx;
 public class LoadUserProfilePic : MonoBehaviour
 {
     [SerializeField] private AvatarsStorage avatarsStorage;
     [SerializeField] Image icon;
     [Inject] private UserInfoClient userInfoClient;
-	void OnEnable()
+    [Inject] private ChooseAvatarPresenter _chooseAvatarPresenter;
+	void Start()
     {
         loadIcon();
-
+        _chooseAvatarPresenter.OnProfilePicUpdatedAsObservable().Subscribe(_ => loadIcon());
 	}
 
     private async UniTask loadIcon()

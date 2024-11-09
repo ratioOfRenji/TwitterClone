@@ -11,7 +11,7 @@ public class ChooseAvatarPresenter: IInitializable, IDisposable
 	private CompositeDisposable _disposables = new CompositeDisposable();
 
 	private Subject<Unit> profilePicUpdatedSubject = new Subject<Unit>();
-	public IObservable<Unit> ProfilePicUpdatedAsObservable()
+	public IObservable<Unit> OnProfilePicUpdatedAsObservable()
 	{
 		return profilePicUpdatedSubject.AsObservable();
 	}

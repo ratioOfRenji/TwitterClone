@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Cysharp.Threading.Tasks;
@@ -21,8 +22,22 @@ public class BlogClient
 	public async UniTask<bool> PostNewBlogAsync(string title, string description)
 	{
 		var url = $"{_baseApiUrl}/api/Blogs";
-		var blogData = JsonConvert.SerializeObject(new { BlogTitle = title, BlogDescription = description });
-		return await SendPostRequest(url, blogData);
+
+		// Create a new Blog object with default values for BlogId, BlogAuthor, and CreatedAt
+		var blogData = new Blog
+		{
+			BlogId = 0,
+			BlogTitle = title,
+			BlogDescription = description,
+			BlogAuthor = "placeholder",
+			CreatedAt = DateTime.Now
+		};
+
+		// Serialize the Blog object
+		string jsonData = JsonConvert.SerializeObject(blogData);
+
+		// Send the request
+		return await SendPostRequest(url, jsonData);
 	}
 
 	// Method to get all blogs for the current user
@@ -102,6 +117,10 @@ public class BlogClient
 					}
 				}
 				Debug.LogError($"Request failed: {request.error}");
+				if (request.downloadHandler != null)
+				{
+					Debug.LogError($"Response: {request.downloadHandler.text}");
+				}
 				return false;
 			}
 		}

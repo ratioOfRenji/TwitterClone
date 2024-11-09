@@ -9,6 +9,8 @@ public class AuthScreenSwicher : MonoBehaviour
 	[SerializeField] private GameObject _signInScreen;
 	[SerializeField] private GameObject _confirmEmailScreen;
 	[SerializeField] private GameObject _loadingScreen;
+
+	
 	public void ShowRegisterScreen()
 	{
 		_registerScreen.SetActive(true);

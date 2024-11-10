@@ -6,16 +6,14 @@ using Zenject;
 
 public class ListingUserBlogsModel
 {
-	private readonly DiContainer _container;
-	private readonly BlogView _prefab;
+	private readonly BlogView.Factory _blogsFactory;
 	private readonly BlogClient _blogClient;
 	private List<Blog> _cachedBlogs = new List<Blog>();
 	public PaginationInfo _cachedUserPagination { get; private set; }
-	public ListingUserBlogsModel(DiContainer container,BlogClient blogClient , BlogView prefab)
+	public ListingUserBlogsModel(BlogView.Factory blogsFactory, BlogClient blogClient )
 	{
-		_container = container;
+		_blogsFactory = blogsFactory;
 		_blogClient = blogClient;
-		_prefab = prefab;
 		_cachedUserPagination = new PaginationInfo();
 		_cachedUserPagination.CurrentPage = 1;
 	}
@@ -52,8 +50,10 @@ public class ListingUserBlogsModel
 	{
 		foreach (Blog blog in blogs)
 		{
-			BlogView prefab =_container.InstantiatePrefab(_prefab, parent.transform).GetComponent<BlogView>();
+			BlogView prefab = _blogsFactory.Create();
+			prefab.transform.parent = parent.transform;
 			prefab.SetupBlogText(blog);
+			prefab.AssignBlogInfo(blog);
 		}
 	}
 

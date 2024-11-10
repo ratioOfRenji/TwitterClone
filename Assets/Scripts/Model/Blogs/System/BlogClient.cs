@@ -166,6 +166,50 @@ public class BlogClient
 				}
 				return false;
 			}
+
+
+		}
+	}
+
+	public async UniTask<UserProfile> GetUserInfoByUserIdAsync(string userId)
+	{
+		var url = $"{_baseApiUrl}/api/user-info/get-user-info/{userId}";
+
+		using (UnityWebRequest request = UnityWebRequest.Get(url))
+		{
+			// Set the Authorization header
+			var token = _tokenStorage.UserTokens.AccessToken;
+			request.SetRequestHeader("Authorization", $"Bearer {token}");
+
+			// Send the request and wait for it to complete
+			var asyncOp = request.SendWebRequest();
+			while (!asyncOp.isDone)
+			{
+				await UniTask.Yield();
+			}
+
+			if (request.result == UnityWebRequest.Result.Success && request.downloadHandler != null)
+			{
+				// Parse and return the user profile from the response
+				var responseJson = request.downloadHandler.text;
+				var userProfile = JsonConvert.DeserializeObject<UserProfile>(responseJson);
+
+				return userProfile;
+			}
+			else
+			{
+				// Handle the error case
+				if (request.responseCode == 401)
+				{
+					Debug.LogError("Unauthorized: Token may be expired.");
+					// Handle token refresh if necessary here
+				}
+				else
+				{
+					Debug.LogError($"Failed to fetch user info: {request.error}");
+				}
+				return null;
+			}
 		}
 	}
 

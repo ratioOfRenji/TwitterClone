@@ -5808,7 +5808,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42118556a29c7f84e989c719689ab515, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BlogPrefab: {fileID: 8958956491342845878, guid: 30077b527f4b4184fbf54ad0dda9291d,
+  _blogPrefab: {fileID: 2813624287627890690, guid: 30077b527f4b4184fbf54ad0dda9291d,
     type: 3}
   _view: {fileID: 1520462187}
 --- !u!114 &668685274

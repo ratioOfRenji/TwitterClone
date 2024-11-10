@@ -54,6 +54,7 @@ public class ListingFeedModel
 			prefab.transform.parent = parent.transform;
 			prefab.SetupBlogText(blog);
 			prefab.AssignBlogInfo(blog);
+			prefab.ShowDeleteBlogButton(false);
 		}
 	}
 

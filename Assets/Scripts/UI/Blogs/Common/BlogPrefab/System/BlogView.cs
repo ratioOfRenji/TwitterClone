@@ -14,6 +14,7 @@ public class BlogView : MonoBehaviour
     [SerializeField] private TMP_Text _BlogText;
     [SerializeField] private TMP_Text _blogDate;
 	[SerializeField] private AvatarsStorage _avatarsStorage;
+    [SerializeField] private GameObject _deleteBlogButton;
     private Subject<Blog> _blogSubject = new Subject<Blog>();
     public IObservable<Blog> OnBlogCreatedAsObservable()
     {
@@ -36,6 +37,10 @@ public class BlogView : MonoBehaviour
         _blogAuthor.text = authorName;
     }
 
+    public void ShowDeleteBlogButton(bool active)
+    {
+        _deleteBlogButton.SetActive(active);
+    }
 	public class Factory : PlaceholderFactory<BlogView>
 	{
 	}

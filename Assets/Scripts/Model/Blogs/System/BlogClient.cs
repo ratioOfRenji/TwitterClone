@@ -212,7 +212,49 @@ public class BlogClient
 			}
 		}
 	}
+	public async UniTask<bool> DeleteBlogAsync(int blogId)
+	{
+		var url = $"{_baseApiUrl}/api/Blogs/{blogId}";
 
+		using (UnityWebRequest request = UnityWebRequest.Delete(url))
+		{
+			// Set the Authorization header
+			var token = _tokenStorage.UserTokens.AccessToken;
+			request.SetRequestHeader("Authorization", $"Bearer {token}");
+
+			// Send the request and wait for completion
+			var asyncOp = request.SendWebRequest();
+			while (!asyncOp.isDone)
+			{
+				await UniTask.Yield();
+			}
+
+			if (request.result == UnityWebRequest.Result.Success)
+			{
+				Debug.Log("Blog deleted successfully.");
+				return true;
+			}
+			else
+			{
+				// Handle 401 Unauthorized by attempting a token refresh
+				if (request.responseCode == 401)
+				{
+					bool tokenRefreshed = await RefreshTokenAsync();
+					if (tokenRefreshed)
+					{
+						return await DeleteBlogAsync(blogId); // Retry after refreshing token
+					}
+				}
+
+				Debug.LogError($"Failed to delete blog: {request.error}");
+				if (request.downloadHandler != null)
+				{
+					Debug.LogError($"Response: {request.downloadHandler.text}");
+				}
+				return false;
+			}
+		}
+	}
 	// Method to refresh the token once
 	private async UniTask<bool> RefreshTokenAsync()
 	{

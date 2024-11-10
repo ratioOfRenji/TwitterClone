@@ -1,18 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class PaginationInfo : MonoBehaviour
+public class PaginationInfo
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	public int CurrentPage { get; set; }
+	public int PageSize { get; set; }
+	public bool HasMore { get; set; }
 }

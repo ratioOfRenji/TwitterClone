@@ -283,6 +283,7 @@ GameObject:
   - component: {fileID: 2805877420363142059}
   - component: {fileID: 3137945768633721678}
   - component: {fileID: 3184007266594208954}
+  - component: {fileID: 7240487279250439544}
   m_Layer: 5
   m_Name: Profile pick
   m_TagString: Untagged
@@ -361,6 +362,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 1
+--- !u!114 &7240487279250439544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5549349185161643887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4b1e51946b19f744988d6afc008988d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  avatarsStorage: {fileID: 11400000, guid: ba2c767fc0e878b40bcbb46c7efd1c0a, type: 2}
+  icon: {fileID: 8246418296934754241}
 --- !u!1 &6618068282962076088
 GameObject:
   m_ObjectHideFlags: 0

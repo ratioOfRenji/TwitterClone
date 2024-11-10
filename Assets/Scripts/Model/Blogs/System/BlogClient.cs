@@ -41,9 +41,9 @@ public class BlogClient
 	}
 
 	// Method to get all blogs for the current user
-	public async UniTask<List<Blog>> GetAllUserBlogsAsync()
+	public async UniTask<(List<Blog> Blogs, PaginationInfo Pagination)> GetUserBlogsAsync(int page, int pageSize)
 	{
-		var url = $"{_baseApiUrl}/api/Blogs/my-blogs";
+		var url = $"{_baseApiUrl}/api/Blogs/my-blogs?page={page}&pageSize={pageSize}";
 
 		using (UnityWebRequest request = UnityWebRequest.Get(url))
 		{
@@ -59,9 +59,12 @@ public class BlogClient
 
 			if (request.result == UnityWebRequest.Result.Success && request.downloadHandler != null)
 			{
-				// Parse and return blogs
+				// Parse and return blogs along with pagination info
 				var responseJson = request.downloadHandler.text;
-				return JsonConvert.DeserializeObject<List<Blog>>(responseJson);
+
+				// Assuming response is a JSON object with "data" and "pagination" fields
+				var responseObj = JsonConvert.DeserializeObject<PaginatedResponse<Blog>>(responseJson);
+				return (responseObj.Data, responseObj.Pagination);
 			}
 			else
 			{
@@ -71,11 +74,11 @@ public class BlogClient
 					bool tokenRefreshed = await RefreshTokenAsync();
 					if (tokenRefreshed)
 					{
-						return await GetAllUserBlogsAsync(); // Retry after refreshing token
+						return await GetUserBlogsAsync(page, pageSize); // Retry after refreshing token
 					}
 				}
 				Debug.LogError($"Failed to fetch blogs: {request.error}");
-				return null;
+				return (null, null);
 			}
 		}
 	}

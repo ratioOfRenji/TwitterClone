@@ -12672,6 +12672,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blogsParent: {fileID: 715053419}
+  scrollRect: {fileID: 701292748}
+  bottomThreshold: -0.05
 --- !u!114 &1520462188
 MonoBehaviour:
   m_ObjectHideFlags: 0

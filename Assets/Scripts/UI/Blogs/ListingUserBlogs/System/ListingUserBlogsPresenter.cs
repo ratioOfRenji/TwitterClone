@@ -11,6 +11,8 @@ public class ListingUserBlogsPresenter : IInitializable, IDisposable
 	private readonly CreateNewPostPresenter _createNewPostPresenter;
 	private readonly StartUp _startUp;
 	private CompositeDisposable _disposables = new CompositeDisposable();
+
+	private bool loadingNewBatch = false;
 	public ListingUserBlogsPresenter(ListingUserBlogsView view, ListingUserBlogsModel model, CreateNewPostPresenter createNewPostPresenter, StartUp startUp)
 	{
 		_view = view;
@@ -20,15 +22,20 @@ public class ListingUserBlogsPresenter : IInitializable, IDisposable
 	}
 	public void Initialize()
 	{
-		_startUp.OnTokensLoadedAsObservable().Subscribe(success => { if (success) _model.LoadAndSpawnUserBlogs(_view.BlogsParent); }).AddTo(_disposables);
+		_startUp.OnTokensLoadedAsObservable().Subscribe(success => { if (success) _model.LoadAndSpawnUserBlogs(_view.BlogsParent,1,5); }).AddTo(_disposables);
 		_createNewPostPresenter.OnBlogPostedAsObservable().Subscribe(_ => { ReloadPosts(); }).AddTo(_disposables);
+		_view.OnBottomReachedAsObservable().Subscribe(_ => { if(!loadingNewBatch&& _model._cachedUserPagination.HasMore) LoadNewBatch(); }).AddTo(_disposables);
 	}
 
 	private async void ReloadPosts()
 	{
-		List<Blog> newBlogs=  await _model.LoadUserBlogs();
-		_model.ClearDisplayedPosts(_view.BlogsParent); 
-		_model.SpawnBlogPosts(newBlogs, _view.BlogsParent);
+		_model.ReloadPosts(_view.BlogsParent);
+	}
+	private async void LoadNewBatch()
+	{
+		loadingNewBatch = true;
+		await _model.LoadAndSpawnNextBatch(_view.BlogsParent);
+		loadingNewBatch = false;
 	}
 	public void Dispose()
 	{

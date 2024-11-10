@@ -10,22 +10,42 @@ public class ListingUserBlogsModel
 	private readonly BlogView _prefab;
 	private readonly BlogClient _blogClient;
 	private List<Blog> _cachedBlogs = new List<Blog>();
+	public PaginationInfo _cachedUserPagination { get; private set; }
 	public ListingUserBlogsModel(DiContainer container,BlogClient blogClient , BlogView prefab)
 	{
 		_container = container;
 		_blogClient = blogClient;
 		_prefab = prefab;
+		_cachedUserPagination = new PaginationInfo();
+		_cachedUserPagination.CurrentPage = 1;
 	}
 
-	public async UniTask LoadAndSpawnUserBlogs(GameObject parent)
+	public async UniTask LoadAndSpawnUserBlogs(GameObject parent, int page, int pageSize)
 	{
-		List<Blog> blogs = await LoadUserBlogs();
+		var (blogs, pagination) = await LoadUserBlogs(page, pageSize);
+		_cachedUserPagination = pagination;
 		SpawnBlogPosts(blogs, parent);
 	}
 
-	public UniTask<List<Blog>> LoadUserBlogs()
+	public async UniTask LoadAndSpawnNextBatch(GameObject parent)
 	{
-		return _blogClient.GetAllUserBlogsAsync();
+		int pageSize = _cachedUserPagination.PageSize;
+		if (pageSize <= 0) pageSize = 10;
+		var (blogs, pagination) = await LoadUserBlogs(_cachedUserPagination.CurrentPage+1, pageSize);
+		SpawnBlogPosts(blogs, parent);
+	}
+	public async void ReloadPosts(GameObject parent)
+	{
+		var (blogs, pagination) = await LoadUserBlogs(1, 5);
+		ClearDisplayedPosts(parent);
+		_cachedUserPagination = pagination;
+		SpawnBlogPosts(blogs, parent);
+	}
+	public async UniTask<(List<Blog> Blogs, PaginationInfo Pagination)> LoadUserBlogs(int page, int pageSize)
+	{
+		var(blogs, pagination) = await _blogClient.GetUserBlogsAsync(page, pageSize);
+		_cachedUserPagination = pagination;
+		return (blogs, pagination);
 	}
 
 	public void SpawnBlogPosts(List<Blog> blogs, GameObject parent)
@@ -43,5 +63,7 @@ public class ListingUserBlogsModel
 		{
 			GameObject.Destroy(parent.transform.GetChild(i).gameObject);
 		}
+		_cachedUserPagination = new();
+		_cachedUserPagination.CurrentPage = 1;
 	}
 }

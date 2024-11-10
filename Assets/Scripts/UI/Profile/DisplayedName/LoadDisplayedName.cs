@@ -11,12 +11,12 @@ public class LoadDisplayedName : MonoBehaviour
     [SerializeField] private TMP_Text displayedNameText;
 	[Inject] private UserInfoClient userInfoClient;
     [Inject] private ChangeDisplayedNamePresenter changeDisplayedNamePresenter;
-
+    [Inject] private StartUp _startUp;
     private CompositeDisposable _disposables = new CompositeDisposable();
-	void Start()
+	void Awake()
     {
         changeDisplayedNamePresenter.OnNameChangedAsObservable().Subscribe(name => LoadName()).AddTo(_disposables);
-        LoadName();
+        _startUp.OnTokensLoadedAsObservable().Subscribe(success => { if (success) { LoadName(); } }).AddTo(_disposables);   
 
 
 	}

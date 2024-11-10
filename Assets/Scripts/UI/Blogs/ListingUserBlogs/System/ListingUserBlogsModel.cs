@@ -19,17 +19,16 @@ public class ListingUserBlogsModel
 
 	public async UniTask LoadAndSpawnUserBlogs(GameObject parent)
 	{
-		await UniTask.Delay(5000);
 		List<Blog> blogs = await LoadUserBlogs();
 		SpawnBlogPosts(blogs, parent);
 	}
 
-	private UniTask<List<Blog>> LoadUserBlogs()
+	public UniTask<List<Blog>> LoadUserBlogs()
 	{
 		return _blogClient.GetAllUserBlogsAsync();
 	}
 
-	private void SpawnBlogPosts(List<Blog> blogs, GameObject parent)
+	public void SpawnBlogPosts(List<Blog> blogs, GameObject parent)
 	{
 		foreach (Blog blog in blogs)
 		{

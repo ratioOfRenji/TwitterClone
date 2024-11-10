@@ -82,7 +82,47 @@ public class BlogClient
 			}
 		}
 	}
+	public async UniTask<(List<Blog> Blogs, PaginationInfo Pagination)> GetAllBlogsAsync(int page, int pageSize)
+	{
+		var url = $"{_baseApiUrl}/api/Blogs/all-blogs?page={page}&pageSize={pageSize}";
 
+		using (UnityWebRequest request = UnityWebRequest.Get(url))
+		{
+			// Set the Authorization header
+			var token = _tokenStorage.UserTokens.AccessToken;
+			request.SetRequestHeader("Authorization", $"Bearer {token}");
+
+			var asyncOp = request.SendWebRequest();
+			while (!asyncOp.isDone)
+			{
+				await UniTask.Yield();
+			}
+
+			if (request.result == UnityWebRequest.Result.Success && request.downloadHandler != null)
+			{
+				// Parse and return blogs along with pagination info
+				var responseJson = request.downloadHandler.text;
+
+				// Assuming response is a JSON object with "data" and "pagination" fields
+				var responseObj = JsonConvert.DeserializeObject<PaginatedResponse<Blog>>(responseJson);
+				return (responseObj.Data, responseObj.Pagination);
+			}
+			else
+			{
+				// Handle 401 Unauthorized specifically for token refresh
+				if (request.responseCode == 401)
+				{
+					bool tokenRefreshed = await RefreshTokenAsync();
+					if (tokenRefreshed)
+					{
+						return await GetAllBlogsAsync(page, pageSize); // Retry after refreshing token
+					}
+				}
+				Debug.LogError($"Failed to fetch blogs: {request.error}");
+				return (null, null);
+			}
+		}
+	}
 	// Helper method to send POST requests
 	private async UniTask<bool> SendPostRequest(string url, string jsonBody)
 	{

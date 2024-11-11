@@ -1,3 +1,4 @@
+using Codice.CM.Common;
 using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Collections;
@@ -50,9 +51,10 @@ public class SignInWithEmail
 
 				return true;
 			}
-			else
 			{
-				Debug.LogError($"Request failed: {request.error}");
+				// Attempt to get the full error message from the response body
+				string serverResponse = request.downloadHandler.text;
+				Debug.LogError($"Request failed: {request.error}. Server Response: {serverResponse}");
 				return false;
 			}
 		}

@@ -28,6 +28,10 @@ public class BlogPresenter : IInitializable, IDisposable
 		{
 			_view.AssignAuthorInfo(_model.AuthorsAvatar, _model.AuthorName);
 		}
+		else
+		{
+			_view.AssignAuthorInfo(EIconType.Icon3, "John Doe");
+		}
 
 
 	}

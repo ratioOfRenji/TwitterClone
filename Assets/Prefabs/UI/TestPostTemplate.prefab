@@ -121,7 +121,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7568800293973766444}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: DeleteBlog, UI
         m_MethodName: DeleteBlogm
         m_Mode: 1
@@ -469,7 +469,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: John Doe
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1680278127fb5dc40a521d7ca69683b4, type: 2}
   m_sharedMaterial: {fileID: 4987307449028908475, guid: 1680278127fb5dc40a521d7ca69683b4,
@@ -497,7 +497,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
+  m_fontSize: 72
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -628,7 +628,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ShowMaskGraphic: 0
+  m_ShowMaskGraphic: 1
 --- !u!1 &6644934467423095111
 GameObject:
   m_ObjectHideFlags: 0
@@ -909,8 +909,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: -768864627, guid: bbcb453ec8c14c44c959b033d52fa202, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -930,12 +930,8 @@ GameObject:
   - component: {fileID: 6739125039432475669}
   - component: {fileID: 4649847055258598083}
   - component: {fileID: 2921533078807684947}
-  - component: {fileID: 2813624287627890690}
-  - component: {fileID: 1279708978393975207}
-  - component: {fileID: 5329722061929666983}
-  - component: {fileID: 7568800293973766444}
   m_Layer: 5
-  m_Name: PostTemplate
+  m_Name: TestPostTemplate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -982,7 +978,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.21911168, b: 1, a: 0}
+  m_Color: {r: 0, g: 0.21911168, b: 1, a: 0.5294118}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -999,64 +995,3 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2813624287627890690
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8958956491342845878}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e03d7d53a8478ea48af80b509eddd485, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _profilePic: {fileID: 8246418296934754241}
-  _blogAuthor: {fileID: 8530668815002328362}
-  _BlogText: {fileID: 5778705249857495382}
-  _blogDate: {fileID: 6484163991578024343}
-  _avatarsStorage: {fileID: 11400000, guid: ba2c767fc0e878b40bcbb46c7efd1c0a, type: 2}
-  _deleteBlogButton: {fileID: 34409714901938923}
---- !u!114 &1279708978393975207
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8958956491342845878}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f596c988e4d37514db2df1e6e7f3e027, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _view: {fileID: 2813624287627890690}
---- !u!114 &5329722061929666983
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8958956491342845878}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08eca9f7688a0a24685b89133b020c8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _scriptableObjectInstallers: []
-  _monoInstallers:
-  - {fileID: 1279708978393975207}
-  _installerPrefabs: []
-  _autoRun: 1
-  _kernel: {fileID: 0}
---- !u!114 &7568800293973766444
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8958956491342845878}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51fcf1461dea8c545baa80c88736d5b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

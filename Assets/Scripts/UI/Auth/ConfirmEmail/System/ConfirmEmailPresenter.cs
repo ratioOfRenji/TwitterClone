@@ -15,6 +15,12 @@ public class ConfirmEmailPresenter : IInitializable, IDisposable
 	SignInWithEmail _signInModel;
 	RegisterWithEmail _registerModel;
 
+	private Subject<Unit> onEmailConfirmedSubject = new Subject<Unit>();
+
+	public IObservable<Unit> OnEmailConfirmedAsObservable()
+	{
+		return onEmailConfirmedSubject.AsObservable();
+	}
 	private CompositeDisposable _disposables = new CompositeDisposable();
 	public ConfirmEmailPresenter(ConfirmEmail model,
 		ConfirmEmailView view,
@@ -46,6 +52,7 @@ public class ConfirmEmailPresenter : IInitializable, IDisposable
 			bool loginSuccess = await _signInModel.Login(_userDataStorage._userData.Email, _registerModel.CurrentPassword);
 			if (loginSuccess)
 			{
+				onEmailConfirmedSubject.OnNext(Unit.Default);
 				_blogsScreensSwicher.ShowBlogsScreen();
 			}
 			else

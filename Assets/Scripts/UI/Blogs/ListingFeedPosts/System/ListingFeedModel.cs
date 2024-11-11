@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Zenject;
 
 public class ListingFeedModel
@@ -52,10 +53,14 @@ public class ListingFeedModel
 		{
 			BlogView prefab = _blogsFactory.Create();
 			prefab.transform.parent = parent.transform;
+			prefab.transform.localScale = Vector3.one;
+			prefab.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+			prefab.GetComponent<RectTransform>().rotation = Quaternion.identity;
 			prefab.SetupBlogText(blog);
 			prefab.AssignBlogInfo(blog);
 			prefab.ShowDeleteBlogButton(false);
 		}
+		LayoutRebuilder.ForceRebuildLayoutImmediate(parent.GetComponent<RectTransform>());
 	}
 
 	public void ClearDisplayedPosts(GameObject parent)

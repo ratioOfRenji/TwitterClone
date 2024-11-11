@@ -7,17 +7,17 @@ using UnityEngine.Networking;
 public class DeleteUser
 {
 	public string ErrorMessage { get; private set; }
-	private UserDataStorage _userDataStorage;
+	private readonly TokensStorage _userDataStorage;
 
-	public DeleteUser(UserDataStorage userDataStorage)
+	public DeleteUser(TokensStorage userDataStorage)
 	{
 		_userDataStorage = userDataStorage;
 	}
 
-	// Method to delete a user by userId
-	public async UniTask<bool> DeleteUserm(string userId)
+	// Method to delete the authenticated user
+	public async UniTask<bool> DeleteUserAsync()
 	{
-		var url = $"{Constants.BaseApiUrl}/api/Account/delete-user/{userId}";
+		var url = $"{Constants.BaseApiUrl}/api/Account/delete-user";
 		return await SendDeleteRequest(url);
 	}
 
@@ -26,9 +26,18 @@ public class DeleteUser
 	{
 		using (UnityWebRequest request = UnityWebRequest.Delete(url))
 		{
-			// Optionally set headers, such as Authorization if required
-			// var token = _userDataStorage.GetAccessToken();
-			// request.SetRequestHeader("Authorization", $"Bearer {token}");
+			// Set the Authorization header with the access token
+			var token = _userDataStorage.UserTokens.AccessToken;
+			if (!string.IsNullOrEmpty(token))
+			{
+				request.SetRequestHeader("Authorization", $"Bearer {token}");
+			}
+			else
+			{
+				ErrorMessage = "Authorization token is missing.";
+				Debug.LogError(ErrorMessage);
+				return false;
+			}
 
 			var asyncOp = request.SendWebRequest();
 
@@ -40,7 +49,6 @@ public class DeleteUser
 			if (request.result == UnityWebRequest.Result.Success)
 			{
 				Debug.Log("User successfully deleted!");
-				
 				return true;
 			}
 			else
@@ -54,3 +62,4 @@ public class DeleteUser
 		}
 	}
 }
+

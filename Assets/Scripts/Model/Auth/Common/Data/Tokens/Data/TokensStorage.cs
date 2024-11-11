@@ -2,6 +2,8 @@ using System.IO;
 using UnityEngine;
 using Newtonsoft.Json;
 using Cysharp.Threading.Tasks;
+using UniRx;
+using System;
 public class TokensStorage
 {
 	public TokensDataInstance UserTokens {  get; private set; }
@@ -9,6 +11,12 @@ public class TokensStorage
 	private string _saveFileName = "userTokens";
 
 	private readonly TokenRefresh _tokenRefresh;
+
+	private Subject<Unit> onTokenSetSubject = new Subject<Unit>();
+	public IObservable<Unit> OnTokensSetAsObservable()
+	{
+		return onTokenSetSubject.AsObservable();
+	}
 	public TokensStorage(TokenRefresh tokenRefresh)
 	{
 		_tokenRefresh = tokenRefresh;
@@ -55,6 +63,12 @@ public class TokensStorage
 		File.WriteAllText(filePath, jsonData);
 	}
 
+	public void SetData(TokensDataInstance userTokens)
+	{
+		UserTokens = userTokens;
+		SaveData();
+		onTokenSetSubject.OnNext(Unit.Default);
+	}
 	public void UpdateData(TokensDataInstance userTokens)
 	{
 		UserTokens = userTokens;

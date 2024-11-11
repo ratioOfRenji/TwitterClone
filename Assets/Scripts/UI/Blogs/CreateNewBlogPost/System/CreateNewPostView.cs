@@ -20,7 +20,10 @@ public class CreateNewPostView : MonoBehaviour
     {
         return _postText.text;
     }
-
+    public void ClearInputField()
+    {
+        _postText.text = string.Empty;
+    }
     public void ShowPanel(bool active)
     {
         _createBlogPanel.SetActive(active);

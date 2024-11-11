@@ -30,6 +30,8 @@ public class CreateNewPostPresenter : IInitializable, IDisposable
 		_view.ShowPanel(false);
 		bool success =await _model.PostNewBlog(_view.PostText());
 		if (success) {
+			_view.ClearInputField();
+			_view.ShowPanel(false);
 		onBlogPostedSubject?.OnNext(Unit.Default);
 		}
 	}

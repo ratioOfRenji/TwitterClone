@@ -1,4 +1,3 @@
-using Codice.CM.Common;
 using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Collections;
@@ -63,6 +62,6 @@ public class SignInWithEmail
 	private void SaveTokensFromResponse(string responseJson)
 	{
 		var tokenResponse = JsonConvert.DeserializeObject<TokensDataInstance>(responseJson);
-		_tokenStorage.UpdateData(tokenResponse);
+		_tokenStorage.SetData(tokenResponse);
 	}
 }

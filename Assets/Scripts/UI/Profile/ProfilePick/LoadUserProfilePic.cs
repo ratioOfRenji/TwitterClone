@@ -9,13 +9,16 @@ public class LoadUserProfilePic : MonoBehaviour
 {
     [SerializeField] private AvatarsStorage avatarsStorage;
     [SerializeField] Image icon;
-    [Inject] private UserInfoClient userInfoClient;
-    [Inject] private ChooseAvatarPresenter _chooseAvatarPresenter;
-    [Inject] private StartUp _startUp;
+    [Inject] private readonly UserInfoClient userInfoClient;
+    [Inject] private readonly ChooseAvatarPresenter _chooseAvatarPresenter;
+    [Inject] private readonly StartUp _startUp;
+    [Inject] private readonly TokensStorage _tokensStorage;
     private CompositeDisposable _disposables = new CompositeDisposable();  
 	void Awake()
     {
-        _chooseAvatarPresenter.OnProfilePicUpdatedAsObservable().Subscribe(_ => loadIcon()).AddTo(_disposables);
+		_tokensStorage.OnTokensSetAsObservable().Subscribe(_ => loadIcon()).AddTo(_disposables);
+
+		_chooseAvatarPresenter.OnProfilePicUpdatedAsObservable().Subscribe(_ => loadIcon()).AddTo(_disposables);
         _startUp.OnTokensLoadedAsObservable().Subscribe(success => { if (success) loadIcon(); }).AddTo(_disposables);
 	}
 

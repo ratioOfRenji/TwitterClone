@@ -1,6 +1,8 @@
 using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
+using System;
 using System.Text;
+using UniRx;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -8,7 +10,11 @@ public class UserInfoClient
 {
 	private TokensStorage _tokenStorage;
 	private TokenRefresh _tokenRefresh;
-
+	private Subject<bool> onUserDataChangedSubject = new Subject<bool>();
+	public IObservable<bool> OnUserDataChangedAsObservable()
+	{
+		return onUserDataChangedSubject.AsObservable();
+	}
 	public UserInfoClient(TokensStorage tokenStorage, TokenRefresh tokenRefresh)
 	{
 		_tokenStorage = tokenStorage;
@@ -21,7 +27,9 @@ public class UserInfoClient
 		var url = $"{Constants.BaseApiUrl}/api/user-info/change-displayed-name";
 		var requestBody = JsonConvert.SerializeObject(new { DisplayedName = newDisplayedName });
 
-		return await SendPostRequest(url, requestBody);
+		bool success = await SendPostRequest(url, requestBody);
+		onUserDataChangedSubject.OnNext(success);
+		return success;
 	}
 
 	// Change Profile Icon
@@ -30,7 +38,9 @@ public class UserInfoClient
 		var url = $"{Constants.BaseApiUrl}/api/user-info/change-profile-icon";
 		var requestBody = JsonConvert.SerializeObject(new { Icon = newIcon });
 
-		return await SendPostRequest(url, requestBody);
+		bool success = await SendPostRequest(url, requestBody);
+		onUserDataChangedSubject.OnNext(success);
+		return success;
 	}
 
 	// Get User Profile

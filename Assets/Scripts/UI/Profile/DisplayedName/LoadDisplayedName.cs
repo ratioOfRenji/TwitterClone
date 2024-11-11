@@ -9,15 +9,16 @@ using UniRx;
 public class LoadDisplayedName : MonoBehaviour
 {
     [SerializeField] private TMP_Text displayedNameText;
-	[Inject] private UserInfoClient userInfoClient;
-    [Inject] private ChangeDisplayedNamePresenter changeDisplayedNamePresenter;
-    [Inject] private StartUp _startUp;
+	[Inject] private readonly UserInfoClient userInfoClient;
+    [Inject] private readonly ChangeDisplayedNamePresenter changeDisplayedNamePresenter;
+    [Inject] private readonly StartUp _startUp;
+    [Inject] private readonly TokensStorage _tokensStorage;
     private CompositeDisposable _disposables = new CompositeDisposable();
 	void Awake()
     {
         changeDisplayedNamePresenter.OnNameChangedAsObservable().Subscribe(name => LoadName()).AddTo(_disposables);
         _startUp.OnTokensLoadedAsObservable().Subscribe(success => { if (success) { LoadName(); } }).AddTo(_disposables);   
-
+        _tokensStorage.OnTokensSetAsObservable().Subscribe(_ => LoadName()).AddTo(_disposables);
 
 	}
 

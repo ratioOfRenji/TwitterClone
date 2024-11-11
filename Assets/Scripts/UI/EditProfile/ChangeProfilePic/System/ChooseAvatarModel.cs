@@ -1,11 +1,14 @@
 using Cysharp.Threading.Tasks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 
 public class ChooseAvatarModel
 {
 	UserInfoClient _userInfoClient;
+	
 	public ChooseAvatarModel(UserInfoClient userInfoClient)
 	{
 		_userInfoClient = userInfoClient;
@@ -20,6 +23,7 @@ public class ChooseAvatarModel
 
 	public async UniTask<bool> UpdateProfilePick()
 	{
-		return await _userInfoClient.ChangeProfileIconAsync(_cachedImage);
+		bool success= await _userInfoClient.ChangeProfileIconAsync(_cachedImage);
+		return success;
 	}
 }

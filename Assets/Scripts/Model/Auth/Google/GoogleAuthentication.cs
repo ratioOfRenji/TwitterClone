@@ -42,7 +42,7 @@ public class GoogleAuthentication : MonoBehaviour
 			if (user != null)
 			{
 				var tokensData = await SendLoginRequest(user.IdToken);
-				_tokenStorage.UpdateData(tokensData);
+				_tokenStorage.SetData(tokensData);
 				onAuthObservable.OnNext(true);
 			}
 		}
@@ -64,7 +64,7 @@ public class GoogleAuthentication : MonoBehaviour
 			if (user != null)
 			{
 				var tokensData = await SendRegisterRequest(user.IdToken);
-				_tokenStorage.UpdateData(tokensData);
+				_tokenStorage.SetData(tokensData);
 				onAuthObservable.OnNext(true);
 			}
 		}

@@ -6,6 +6,6 @@ public class ConstantsInstaller : MonoInstaller
 {
 	public override void InstallBindings()
 	{
-		Container.Bind<Constants>().AsSingle();
+	   Container.Bind<Constants>().AsSingle();
 	}
 }

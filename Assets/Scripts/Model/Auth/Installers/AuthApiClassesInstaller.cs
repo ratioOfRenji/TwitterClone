@@ -14,5 +14,7 @@ public class AuthApiClassesInstaller : MonoInstaller
 		Container.Bind<UserInfoClient>().AsSingle();
 		Container.Bind<BlogClient>().AsSingle();	
 		Container.Bind<DeleteUser>().AsSingle();
+		Container.Bind<ResetPassword>().AsSingle();
+		Container.Bind<ChangePassword>().AsSingle();
 	}
 }

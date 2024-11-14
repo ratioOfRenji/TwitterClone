@@ -22,6 +22,8 @@ public class CreateNewPostPresenter : IInitializable, IDisposable
 
 	public void Initialize()
 	{
+		_view.OnShowAsObservable().Subscribe(_ => _view.ShowPanel(true));
+		_view.OnHideAsObservable().Subscribe(_ => _view.ShowPanel(false));
 		_view.OnApplyButtonAsObservable().Subscribe(_ => { PostBlogAndNotify(); });
 	}
 

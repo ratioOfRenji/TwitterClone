@@ -3,7 +3,7 @@
     "m_SelectedProcess": {
         "deviceId": "R5CX10YQ8NT",
         "name": "com.RatioCompany.BlogPostsWithGoogle",
-        "processId": 20261,
+        "processId": 22974,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -11,19 +11,109 @@
         {
             "deviceId": "R5CX10YQ8NT",
             "name": "com.RatioCompany.BlogPostsWithGoogle",
-            "processId": 10362,
+            "processId": 9791,
+            "exited": true
+        },
+        {
+            "deviceId": "R5CX10YQ8NT",
+            "name": "com.RatioCompany.BlogPostsWithGoogle",
+            "processId": 10291,
+            "exited": true
+        },
+        {
+            "deviceId": "R5CX10YQ8NT",
+            "name": "com.RatioCompany.BlogPostsWithGoogle",
+            "processId": 12410,
+            "exited": true
+        },
+        {
+            "deviceId": "R5CX10YQ8NT",
+            "name": "com.RatioCompany.BlogPostsWithGoogle",
+            "processId": 13015,
+            "exited": true
+        },
+        {
+            "deviceId": "R5CX10YQ8NT",
+            "name": "com.RatioCompany.BlogPostsWithGoogle",
+            "processId": 14667,
             "exited": false
         },
         {
             "deviceId": "R5CX10YQ8NT",
             "name": "com.RatioCompany.BlogPostsWithGoogle",
-            "processId": 17983,
+            "processId": 15029,
             "exited": false
         },
         {
             "deviceId": "R5CX10YQ8NT",
             "name": "com.RatioCompany.BlogPostsWithGoogle",
-            "processId": 20261,
+            "processId": 16314,
+            "exited": false
+        },
+        {
+            "deviceId": "R5CX10YQ8NT",
+            "name": "com.RatioCompany.BlogPostsWithGoogle",
+            "processId": 21497,
+            "exited": false
+        },
+        {
+            "deviceId": "R5CX10YQ8NT",
+            "name": "com.RatioCompany.BlogPostsWithGoogle",
+            "processId": 30792,
+            "exited": false
+        },
+        {
+            "deviceId": "R5CX10YQ8NT",
+            "name": "com.RatioCompany.BlogPostsWithGoogle",
+            "processId": 2221,
+            "exited": false
+        },
+        {
+            "deviceId": "R5CX10YQ8NT",
+            "name": "com.RatioCompany.BlogPostsWithGoogle",
+            "processId": 4444,
+            "exited": false
+        },
+        {
+            "deviceId": "R5CX10YQ8NT",
+            "name": "com.RatioCompany.BlogPostsWithGoogle",
+            "processId": 5990,
+            "exited": false
+        },
+        {
+            "deviceId": "R5CX10YQ8NT",
+            "name": "com.RatioCompany.BlogPostsWithGoogle",
+            "processId": 14008,
+            "exited": false
+        },
+        {
+            "deviceId": "R5CX10YQ8NT",
+            "name": "com.RatioCompany.BlogPostsWithGoogle",
+            "processId": 14629,
+            "exited": false
+        },
+        {
+            "deviceId": "R5CX10YQ8NT",
+            "name": "com.RatioCompany.BlogPostsWithGoogle",
+            "processId": 17892,
+            "exited": false
+        },
+        {
+            "deviceId": "R5CX10YQ8NT",
+            "name": "com.RatioCompany.BlogPostsWithGoogle",
+            "processId": 19972,
+            "exited": false
+        },
+        {
+            "deviceId": "R5CX10YQ8NT",
+            "name": "com.RatioCompany.BlogPostsWithGoogle",
+            "processId": 21970,
+            "exited": false
+        },
+        {
+            "deviceId": "R5CX10YQ8NT",
+            "name": "com.RatioCompany.BlogPostsWithGoogle",
+            "processId": 22974,
             "exited": false
         }
     ],

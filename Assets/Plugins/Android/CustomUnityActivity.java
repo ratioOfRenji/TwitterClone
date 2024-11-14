@@ -12,16 +12,18 @@ import com.unity3d.player.UnityPlayerActivity;
 public class CustomUnityActivity extends UnityPlayerActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    super.onCreate(savedInstanceState);
 
-        // Show the status bar
-        Window window = this.getWindow();
-        window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+    // Make the status bar fully transparent
+    Window window = this.getWindow();
+    window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | 
+                                               View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+    window.setStatusBarColor(Color.TRANSPARENT); // Set status bar to fully transparent
 
-        // Set initial status bar color and icon color (example: white bg with dark icons)
-        setStatusBarAppearance(0xDBDBDB, true);
-    }
+    // Set the initial status bar color and icon style (dark icons on a light background)
+    setStatusBarAppearance(0xDBDBDB, true);
+}
 
     // Method to set status bar color and icon color from Unity
     public void setStatusBarAppearance(int backgroundColor, boolean useDarkIcons) {
